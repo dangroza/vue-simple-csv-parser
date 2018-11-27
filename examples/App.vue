@@ -2,7 +2,7 @@
   <div class="app">
     <h3>Example - Import file with required login, firstname, lastname and optional values</h3>
     <br>
-    <xls-csv-parser :columns="columns" @on-validate="onValidate" :help="help" lang="en"></xls-csv-parser>
+    <simple-csv-parser :columns="columns" @on-load="onLoad"></simple-csv-parser>
     <br><br>
     <div class="results" v-if="results">
       <h3>Results:</h3>
@@ -12,14 +12,17 @@
 </template>
 
 <script>
-  import { XlsCsvParser } from '../src/index';
+  import { SimpleCsvParser } from '../src/index';
 
   export default {
     name: 'App',
     components: {
-      XlsCsvParser,
+      SimpleCsvParser,
     },
     methods: {
+      onLoad(results) {
+        this.results = results;
+      },
       onValidate(results) {
         this.results = results;
       },
@@ -27,13 +30,10 @@
     data() {
       return {
         columns: [
-          { name: 'Student login', value: 'login' },
-          { name: 'Student firstname', value: 'firstname' },
-          { name: 'Student lastname', value: 'lastname' },
-          { name: 'Other', value: 'other', isOptional: true },
+          { name: 'Name', value: 'name', isOptional: true },
+          { name: 'Email', value: 'email' },
         ],
         results: null,
-        help: 'Necessary columns are: login, firstname and lastname',
       };
     },
   };
